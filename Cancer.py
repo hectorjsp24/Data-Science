@@ -198,8 +198,8 @@ fulldf = fulldf.astype(float)
 
 # PART 2
 # Define the columns for X and y
-cols = ['Incidence_Rate', 'Recent Trend', 'FIPS',
-        'All_Poverty', 'Med_Income', 'All_With', 'All_Without', 'POPESTIMATE2015']
+cols = ['Incidence_Rate', 'All_Poverty', 'Med_Income',
+        'All_With', 'All_Without', 'POPESTIMATE2015',]
 
 # Extract X and y from the dataframe
 X = fulldf[cols]
@@ -264,6 +264,14 @@ print("Cross-validated R-squared (Linear Regression):", cv_scores_linear)
 cv_scores_rf = cross_val_score(best_estimator, X, y, cv=5, scoring='r2')
 print("Cross-validated R-squared (Random Forest):", cv_scores_rf)
 
+coefficients = linreg.coef_
+feature_names = X.columns
+coefficients_df = pd.DataFrame(
+    {'Feature': feature_names, 'Coefficient': coefficients})
+# Sort the coefficients by absolute value to identify the most influential features
+coefficients_df = coefficients_df.reindex(
+    coefficients_df['Coefficient'].abs().sort_values(ascending=False).index)
+print(coefficients_df)
 
 # Plot the actual vs predicted values
 plt.figure(figsize=(10, 6))
@@ -285,9 +293,9 @@ predictions_df = pd.DataFrame({
 })
 
 # Specify the path where you want to save the Excel file
-output_file = 'predictions.xlsx'
+# output_file = 'predictions.xlsx'
 
 # Export predictions DataFrame to Excel
-predictions_df.to_excel(output_file, index=False)
+# predictions_df.to_excel(output_file, index=False)
 
-print("Predictions exported to", output_file)
+# print("Predictions exported to", output_file)
