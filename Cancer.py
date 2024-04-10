@@ -228,10 +228,10 @@ rf_regressor = RandomForestRegressor(random_state=42)
 
 # Define the parameter grid for GridSearchCV
 param_grid = {
-    'n_estimators': [60],  # Number of trees in the forest
-    'max_depth': [20],      # Maximum depth of the tree
+    'n_estimators': [50, 55, 60],  # Number of trees in the forest
+    'max_depth': [18, 20, 22],      # Maximum depth of the tree
     # Minimum number of samples required to split an internal node
-    'min_samples_split': [2],
+    'min_samples_split': [2, 3, 4],
     # Add more parameters as needed
 }
 
