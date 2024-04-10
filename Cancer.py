@@ -198,7 +198,7 @@ fulldf = fulldf.astype(float)
 
 # PART 2
 # Define the columns for X and y
-cols = ['Incidence_Rate', 'Avg_Ann_Incidence', 'Recent Trend', 'Avg_Ann_Deaths',
+cols = ['Incidence_Rate', 'Recent Trend', 'FIPS',
         'All_Poverty', 'Med_Income', 'All_With', 'All_Without', 'POPESTIMATE2015']
 
 # Extract X and y from the dataframe
@@ -228,10 +228,10 @@ rf_regressor = RandomForestRegressor(random_state=42)
 
 # Define the parameter grid for GridSearchCV
 param_grid = {
-    'n_estimators': [55, 60, 65],  # Number of trees in the forest
-    'max_depth': [19, 20, 21],      # Maximum depth of the tree
+    'n_estimators': [60],  # Number of trees in the forest
+    'max_depth': [20],      # Maximum depth of the tree
     # Minimum number of samples required to split an internal node
-    'min_samples_split': [2, 3, 4],
+    'min_samples_split': [2],
     # Add more parameters as needed
 }
 
@@ -276,3 +276,18 @@ plt.ylabel('Predicted Mortality Rate')
 plt.title('Actual vs Predicted Mortality Rate')
 plt.legend()
 plt.show()
+
+# Create a DataFrame containing the actual and predicted values
+predictions_df = pd.DataFrame({
+    'Actual_Mortality_Rate': y_test,
+    'Predicted_Mortality_Rate_LinearRegression': y_pred,
+    'Predicted_Mortality_Rate_RandomForest': y_pred_rf
+})
+
+# Specify the path where you want to save the Excel file
+output_file = 'predictions.xlsx'
+
+# Export predictions DataFrame to Excel
+predictions_df.to_excel(output_file, index=False)
+
+print("Predictions exported to", output_file)
